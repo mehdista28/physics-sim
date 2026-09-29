@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A hands-on terminal velocity practical: measure a sphere, find its density, time it falling through glycerine, and determine the viscosity of the liquid using Stokes' law.">
+<title>Terminal Velocity Lab — a Stokes' Law practical</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#bench">Skip to the experiment</a>
+
+<header class="masthead">
+  <div class="masthead__brand">
+    <span class="masthead__mark" aria-hidden="true">η</span>
+    <span class="masthead__titles">
+      <strong>Terminal Velocity Lab</strong>
+      <span>Stokes&rsquo; law in glycerine</span>
+    </span>
+  </div>
+
+  <div class="masthead__tools">
+    <span class="badge badge--teacher" id="teacherBadge" hidden>Teacher</span>
+    <button type="button" class="btn btn--ghost" id="autofillBtn" title="Fill every reading with the correct value">Autofill</button>
+    <button type="button" class="btn btn--ghost" id="markBtn" title="Check every entry and score the notebook">Mark work</button>
+    <button type="button" class="btn btn--ghost" id="resetBtn">Reset</button>
+    <button type="button" class="btn btn--icon" id="themeBtn" aria-label="Switch to dark theme" title="Switch theme">
+      <svg class="ico ico--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><g class="rays"><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></g></svg>
+      <svg class="ico ico--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.4 6.4 0 0 0 10.5 10.5Z"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="titleblock">
+  <p class="titleblock__kicker">Physics practical &middot; properties of matter</p>
+  <h1>Determination of the viscosity of glycerine by the terminal&nbsp;velocity method</h1>
+  <p class="titleblock__meta">Falling-sphere viscometry &middot; Stokes&rsquo; law &middot; glycerine held at 20&nbsp;&deg;C &middot; accepted value &eta; = 1.41&nbsp;Pa&middot;s</p>
+</section>
+
+<section class="clipboard" id="brief">
+  <div class="clipboard__board">
+    <span class="clipboard__clip" aria-hidden="true"></span>
+    <details open>
+      <summary>
+        <span class="clipboard__title">Experiment brief</span>
+        <span class="clipboard__hint">Tap to collapse</span>
+      </summary>
+      <div class="brief__body">
+        <div class="brief__meta">
+          <span>Practical 4 &mdash; Terminal velocity and the viscosity of glycerine</span>
+          <span>Level: A-Level / IB</span>
+          <span>Duration: 45 minutes</span>
+        </div>
+
+        <div class="brief__col">
+          <h2><span class="sec">1</span>Aim</h2>
+          <p>Determine the viscosity of glycerine by measuring the terminal velocity of a small sphere falling through it, then compare your result to the accepted value of <b>1.41&nbsp;Pa&middot;s</b> at 20&nbsp;&deg;C.</p>
+
+          <h2><span class="sec">2</span>Theory</h2>
+          <p>As the sphere falls it reaches a steady speed where the forces balance: its weight equals the upthrust plus the viscous drag.</p>
+          <p class="equation">
+            <span class="frac"><span class="frac__num">4</span><span class="frac__den">3</span></span>&pi;<i>r</i><sup>3</sup>&rho;<sub>s</sub><i>g</i>
+            &nbsp;=&nbsp;
+            <span class="frac"><span class="frac__num">4</span><span class="frac__den">3</span></span>&pi;<i>r</i><sup>3</sup>&rho;<sub>f</sub><i>g</i>
+            &nbsp;+&nbsp;6&pi;&eta;<i>r</i><i>v</i>
+            <sup class="eqn-no">(1)</sup>
+          </p>
+          <p>Rearranged for the terminal velocity:</p>
+          <p class="equation equation--key">
+            <i>v</i><sub>term</sub> =
+            <span class="frac"><span class="frac__num">2<i>r</i><sup>2</sup><i>g</i>(&rho;<sub>s</sub> &minus; &rho;<sub>f</sub>)</span><span class="frac__den">9&eta;</span></span>
+            <sup class="eqn-no">(2)</sup>
+          </p>
+          <p class="muted">Equation (2) assumes the liquid is unbounded and the flow is laminar (Reynolds number &lt; 1). Both assumptions are checked for you on the bench.</p>
+
+          <h2>Symbols</h2>
+          <table class="symbols">
+            <thead><tr><th>Symbol</th><th>Quantity</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td><i>r</i></td><td>radius of the sphere</td><td>measured, step 1</td></tr>
+              <tr><td><i>&rho;</i><sub>s</sub></td><td>density of the sphere</td><td>measured, step 2</td></tr>
+              <tr><td><i>&rho;</i><sub>f</sub></td><td>density of glycerine</td><td>1260 kg/m&sup3;</td></tr>
+              <tr><td><i>&eta;</i></td><td>viscosity of glycerine</td><td>1.41 Pa&middot;s (accepted)</td></tr>
+              <tr><td><i>g</i></td><td>gravitational field strength</td><td>9.81 N/kg</td></tr>
+              <tr><td><i>R</i></td><td>internal radius of the tube</td><td>40 mm</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="brief__col">
+          <h2><span class="sec">3</span>Apparatus</h2>
+          <ul class="apparatus">
+            <li>Glycerine &mdash; &rho;<sub>f</sub> = 1260&nbsp;kg/m&sup3;, &eta; &asymp; 1.41&nbsp;Pa&middot;s at 20&nbsp;&deg;C</li>
+            <li>Steel, glass and PVC spheres of known material density</li>
+            <li>Vernier caliper (0.1&nbsp;mm)</li>
+            <li>Digital balance reading to 0.0001&nbsp;g</li>
+            <li>Measuring cylinder, internal radius 40&nbsp;mm, clamped in a retort stand</li>
+            <li>Stopwatch, metre rule and thermometer</li>
+          </ul>
+
+          <h2><span class="sec">4</span>Method</h2>
+          <ol class="steps-list">
+            <li><b>Measure the radius.</b> Pick up the vernier caliper, clamp the sphere in its jaws and read the diameter, then halve it for the radius.</li>
+            <li><b>Find the density.</b> Place the sphere on the balance and read its mass. Combine it with your volume to get &rho;<sub>s</sub>.</li>
+            <li><b>Time the fall.</b> Drop the sphere and press <kbd>Space</kbd> as its centre passes each of the four lines. This gives three independent times over three equal 100&nbsp;mm intervals. Repeat for several trials and average.</li>
+            <li><b>Calculate &eta;.</b> Use your mean terminal velocity in the rearranged formula and compare with the accepted value.</li>
+          </ol>
+
+          <h2><span class="sec">5</span>Notes</h2>
+          <ul class="notes-list">
+            <li>The sphere is drawn enlarged so you can see it — read the real numbers from the instruments.</li>
+            <li>Terminal velocity is reached almost instantly in glycerine, so all three intervals should give the same speed. If they don&rsquo;t, check your timing.</li>
+            <li>Advanced control: the walls of a real tube slow the sphere down. Switch the <b>tube-wall correction</b> on (in the apparatus panel) to see why a measured value runs high.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<main>
+  <section class="bench" id="bench" aria-label="The laboratory bench">
+
+    <div class="bench__setup">
+      <h2 class="plate">Experiment setup</h2>
+      <div class="setup-grid">
+        <label class="field">
+          <span class="field__label">Sphere material</span>
+          <select id="materialSelect" class="input">
+            <option value="steel">Steel &mdash; &rho; = 7800 kg/m&sup3;</option>
+            <option value="glass">Glass &mdash; &rho; = 2500 kg/m&sup3;</option>
+            <option value="pvc">PVC plastic &mdash; &rho; = 1450 kg/m&sup3;</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span class="field__label">Choose a sphere <output id="sphereOut" class="field__out">Steel &middot; A</output></span>
+          <input type="range" id="sphereRange" min="0" max="5" step="1" value="0" class="range" aria-label="Choose which sphere to test">
+        </label>
+
+        <div class="setup-flags">
+          <label class="switch">
+            <input type="checkbox" id="wallToggle">
+            <span class="switch__track" aria-hidden="true"></span>
+            <span class="switch__text">Tube-wall correction <span class="muted">(systematic error)</span></span>
+          </label>
+
+          <div class="speed">
+            <span class="field__label">Playback speed</span>
+            <div class="segmented" role="group" aria-label="Playback speed">
+              <button type="button" data-speed="1" class="is-active">1&times;</button>
+              <button type="button" data-speed="2">2&times;</button>
+              <button type="button" data-speed="4">4&times;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-live">
+        <div class="readouts">
+          <div class="readout"><span>Distance fallen</span><b id="roDistance">0.000 m</b></div>
+          <div class="readout"><span>Current speed</span><b id="roSpeed">0.00 cm/s</b></div>
+          <div class="readout"><span>Elapsed</span><b id="roElapsed">0.00 s</b></div>
+        </div>
+        <p class="re-badge" id="reBadge" aria-live="polite"></p>
+        <p class="hint" id="timingStatus" aria-live="polite">Ready when you are.</p>
+      </div>
+
+      <aside class="advanced" id="wallNote" hidden>
+        <h3>Tube-wall effect</h3>
+        <p class="muted">With the correction on, the measured velocity is reduced by the tube walls: <i>v</i><sub>measured</sub> = <i>v</i><sub>term</sub> / (1 + 2.4<i>r</i>/<i>R</i>) with <i>R</i> = 40&nbsp;mm. Correct your velocity before using it: <i>v</i><sub>corrected</sub> = <i>v</i><sub>measured</sub>(1 + 2.4<i>r</i>/<i>R</i>).</p>
+      </aside>
+
+      <dl class="conditions">
+        <div><dt>Liquid</dt><dd>Glycerine</dd></div>
+        <div><dt>Density &rho;<sub>f</sub></dt><dd>1260 kg/m&sup3;</dd></div>
+        <div><dt>Accepted &eta;</dt><dd>1.41 Pa&middot;s</dd></div>
+        <div><dt>Temperature</dt><dd>20.0 &deg;C</dd></div>
+        <div><dt>Field strength <i>g</i></dt><dd>9.81 N/kg</dd></div>
+        <div><dt>Tube radius <i>R</i></dt><dd>40 mm</dd></div>
+      </dl>
+    </div>
+
+    <div class="bench__scene">
+      <svg id="scene" viewBox="0 0 460 720" role="img" aria-label="Measuring cylinder of glycerine held in a retort stand on the laboratory bench"></svg>
+      <p class="scene-caption">Measuring cylinder of glycerine &middot; steel rule in millimetres &middot; timing markers every 100&nbsp;mm</p>
+    </div>
+
+    <div class="bench__drop">
+      <button type="button" class="btn btn--primary btn--block" id="dropBtn">Drop the sphere</button>
+      <p class="hint" id="dropHint">Press <kbd>Space</kbd> at each line marked 1&ndash;4.</p>
+    </div>
+
+    <div class="bench__tools" id="toolSurface" aria-label="Tool surface">
+      <h2 class="plate plate--tools">Tools &mdash; pick one up to use it</h2>
+
+      <article class="tool" data-tool="caliper">
+        <button type="button" class="tool__pick" aria-pressed="true">
+          <span class="tool__name">Vernier caliper</span>
+          <span class="tool__hint">0.1 mm</span>
+        </button>
+        <div class="tool__stage" id="caliperMount" aria-label="Vernier caliper"></div>
+        <div class="tool__body">
+          <p class="tool__copy">Drag the jaw (or use &larr;&rarr;) until it grips the sphere. Read the main scale, then the vernier line that lines up exactly.</p>
+          <button type="button" class="btn btn--ghost" data-announce="caliper">Read scale aloud</button>
+        </div>
+      </article>
+
+      <article class="tool" data-tool="balance">
+        <button type="button" class="tool__pick" aria-pressed="false">
+          <span class="tool__name">Digital balance</span>
+          <span class="tool__hint">0.0001 g</span>
+        </button>
+        <div class="tool__stage" id="balanceMount" aria-label="Digital balance"></div>
+        <div class="tool__body">
+          <p class="tool__copy">Click the pan to put the sphere on the balance. Wait for the reading to settle, then record the mass in the notebook.</p>
+          <button type="button" class="btn btn--ghost" id="panBtn">Place the sphere on the pan</button>
+        </div>
+      </article>
+
+      <article class="tool" data-tool="stopwatch">
+        <button type="button" class="tool__pick" aria-pressed="false">
+          <span class="tool__name">Stopwatch</span>
+          <span class="tool__hint">0.01 s</span>
+        </button>
+        <div class="tool__stage">
+          <div class="stopwatch-face">
+            <span class="stopwatch-face__crown" aria-hidden="true"></span>
+            <output id="stopwatch" class="stopwatch__time" aria-live="off">0.00</output>
+            <span class="stopwatch__unit">s</span>
+          </div>
+        </div>
+        <div class="tool__body">
+          <ul class="mark-list" id="markList" aria-label="Recorded crossings">
+            <li data-mark="1"><span>Line 1</span><b>&mdash;</b></li>
+            <li data-mark="2"><span>Line 2</span><b>&mdash;</b></li>
+            <li data-mark="3"><span>Line 3</span><b>&mdash;</b></li>
+            <li data-mark="4"><span>Line 4</span><b>&mdash;</b></li>
+          </ul>
+          <div class="intervals" id="intervalOut" aria-live="polite">
+            <span class="muted">Interval times appear here after four crossings.</span>
+          </div>
+          <button type="button" class="btn btn--ghost btn--block" id="recordBtn" disabled>Record this trial</button>
+          <div class="uncertainty" id="uncertaintyOut">
+            <p class="muted">Repeat the drop a few times to average out your reaction time.</p>
+          </div>
+          <p class="hint">Repeated trials <b id="trialCount">0</b></p>
+          <ol class="trial-list" id="trialList"></ol>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="notebook" aria-label="Laboratory notebook">
+    <nav class="stepper" aria-label="Notebook pages">
+      <button type="button" class="stepper__item" data-step="1"><b>1</b><span>Measuring the sphere</span></button>
+      <button type="button" class="stepper__item" data-step="2"><b>2</b><span>Mass and density</span></button>
+      <button type="button" class="stepper__item" data-step="3"><b>3</b><span>Timing the fall</span></button>
+      <button type="button" class="stepper__item" data-step="4"><b>4</b><span>Viscosity</span></button>
+      <button type="button" class="stepper__item" data-step="5"><b>5</b><span>Graphs</span></button>
+    </nav>
+
+    <div class="notebook__page">
+      <header class="notebook__head">
+        <span class="notebook__title">Laboratory notebook</span>
+        <label class="nb-field"><span>Name</span><input type="text" class="input hand" id="studentName" placeholder="your name"></label>
+        <label class="nb-field"><span>Class</span><input type="text" class="input hand" id="studentClass" placeholder="class"></label>
+        <label class="nb-field"><span>Date</span><input type="text" class="input hand" id="studentDate" readonly></label>
+        <span class="score" id="scoreOut" aria-live="polite">0 of 18 correct</span>
+      </header>
+
+      <div class="notebook__pages">
+        <div id="reportBody"></div>
+
+        <section class="nb-page" id="step-5" data-page="5">
+          <h3 class="nb-step__title"><span class="nb-step__no">5</span>Graphs</h3>
+          <div class="notebook__figures">
+            <figure class="chart">
+              <figcaption>
+                <span class="fig-no">Fig. 1</span>
+                <h3>Distance fallen against time</h3>
+                <p class="muted">Plotted live as the sphere falls. The gradient is the terminal velocity.</p>
+              </figcaption>
+              <svg id="chartDistance" viewBox="0 0 420 260" role="img" aria-label="Distance fallen against time"></svg>
+            </figure>
+            <figure class="chart">
+              <figcaption>
+                <span class="fig-no">Fig. 2</span>
+                <h3>Velocity against time</h3>
+                <p class="muted">The sphere settles to a constant speed within milliseconds.</p>
+              </figcaption>
+              <svg id="chartVelocity" viewBox="0 0 420 260" role="img" aria-label="Velocity against time"></svg>
+            </figure>
+            <figure class="chart">
+              <figcaption>
+                <span class="fig-no">Fig. 3</span>
+                <h3>Velocity of each interval</h3>
+                <p class="muted">Each bar appears as that interval is timed.</p>
+              </figcaption>
+              <svg id="chartSegments" viewBox="0 0 420 260" role="img" aria-label="Velocity of each hundred millimetre interval"></svg>
+            </figure>
+          </div>
+        </section>
+      </div>
+
+      <div class="notebook__pagenav">
+        <button type="button" class="btn btn--ghost" id="pagePrev">&larr; Previous</button>
+        <span class="page-label" id="pageLabel" aria-live="polite">Page 1 of 5</span>
+        <button type="button" class="btn btn--ghost" id="pageNext">Next &rarr;</button>
+      </div>
+
+      <footer class="notebook__foot">
+        <div class="verdict" id="verdict" aria-live="polite">
+          <p class="muted">Your verdict will appear here once the notebook is complete.</p>
+        </div>
+        <div class="notebook__actions">
+          <button type="button" class="btn btn--primary" id="markBtn2">Mark work</button>
+          <button type="button" class="btn btn--ghost" id="autofillBtn2">Autofill</button>
+          <button type="button" class="btn btn--ghost" id="csvBtn">Download CSV</button>
+          <button type="button" class="btn btn--ghost" id="printBtn">Print notebook</button>
+        </div>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>Built for the classroom &middot; <span id="footPreset"></span></p>
+  <p class="muted">Values are modelled for teaching. Terminal velocity is reached almost immediately, so the sphere is animated at constant speed.</p>
+</footer>
+
+<button type="button" class="calc-fab" id="calcFab" aria-expanded="false" aria-controls="calcPanel">
+  <span aria-hidden="true">&plusmn;</span> Calculator
+</button>
+
+<aside class="calc" id="calcPanel" hidden aria-label="Scratchpad calculator">
+  <div class="calc__head">
+    <strong>Scratchpad</strong>
+    <button type="button" class="btn btn--icon" id="calcClose" aria-label="Close calculator">&times;</button>
+  </div>
+  <input type="text" class="calc__display" id="calcDisplay" inputmode="text" aria-label="Expression" placeholder="e.g. 2*(1.5e-3)^2*9.81*(7800-1260)/(9*0.023)">
+  <div class="calc__keys" id="calcKeys"></div>
+  <p class="calc__note" id="calcNote">Answer fills the last field you touched.</p>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
