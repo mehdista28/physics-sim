@@ -35,28 +35,6 @@ dependencies.
 - **Stopwatch** — runs while the sphere falls and stops itself once the sphere reaches
   the bottom of the cylinder.
 
-## Run it locally
-
-Open `index.html` directly, or serve the folder:
-
-```
-python -m http.server 8000
-```
-
-Then visit `http://localhost:8000`.
-
-## Publish to GitHub Pages
-
-1. Create a new repository on GitHub and push this folder's contents to it.
-   The three site files must sit at the repository root (or in a `/docs` folder).
-2. On GitHub, open **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-4. Pick the `main` branch and the `/ (root)` folder, then **Save**.
-5. Wait a minute; your lab will be live at
-   `https://<your-username>.github.io/<repo-name>/`.
-
-There is no build step, so any push updates the site.
-
 ## Teaching notes
 
 - **Sphere shown enlarged.** The ball is drawn bigger than scale so you can see it;
